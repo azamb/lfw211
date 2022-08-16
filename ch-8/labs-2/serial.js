@@ -1,9 +1,9 @@
 'use strict'
 const { promisify } = require('util')
 
-const print = (err, contents) => { 
+const print = (err, contents) => {
   if (err) console.error(err)
-  else console.log(contents) 
+  else console.log(contents)
 }
 
 const opA = (cb) => {
@@ -23,3 +23,15 @@ const opC = (cb) => {
     cb(null, 'C')
   }, 125)
 }
+
+const a = promisify(opA)
+const b = promisify(opB)
+const c = promisify(opC)
+
+async function main () {
+  print(await a())
+  print(await b())
+  print(await c())
+}
+
+main()
