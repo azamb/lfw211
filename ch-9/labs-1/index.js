@@ -8,6 +8,8 @@ setInterval(() => {
   ee.emit('tick')
 }, 100)
 
+ee.once('tick', listener) // https://nodejs.org/docs/latest-v16.x/api/events.html#emitteronceeventname-listener
+
 function listener () {
   count++
   setTimeout(() => {
