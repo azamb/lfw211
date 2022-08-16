@@ -16,6 +16,9 @@ const out = join(__dirname, 'out.txt')
 function exercise () {
   // TODO read the files in the project folder
   // and write the to the out.txt file
+  const output = fs.readdirSync(project) // https://nodejs.org/docs/latest-v16.x/api/fs.html#fsreaddirsyncpath-options
+
+  fs.writeFileSync(out, output.join()) // https://nodejs.org/docs/latest-v16.x/api/fs.html#fswritefilesyncfile-data-options
 }
 
 exercise()

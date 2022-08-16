@@ -27,8 +27,8 @@ async function writer () {
   await chmod(pre, 0o444)
   await timeout(500)
   assert.strictEqual(
-    answer, 
-    file, 
+    answer,
+    file,
     'answer should be the file (not folder) which was added'
   )
   console.log('passed!')
@@ -44,16 +44,18 @@ writer().catch((err) => {
 function exercise (project) {
   const files = new Set(fs.readdirSync(project))
   fs.watch(project, (evt, filename) => {
-    try { 
+    try {
       const filepath = join(project, filename)
       const stat = fs.statSync(filepath)
 
       // TODO - only set the answer variable if the filepath
       // is both newly created AND does not point to a directory
+      if (!files.has(filename) && !stat.isDirectory()) { // https://nodejs.org/docs/latest-v16.x/api/fs.html#statsisdirectory
+        answer = filepath
+      }
 
-      answer = filepath
     } catch (err) {
 
-    } 
+    }
   })
 }
