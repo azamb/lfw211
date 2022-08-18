@@ -15,12 +15,19 @@ const createWritable = () => {
 const readable = Readable.from(['a', 'b', 'c'])
 const writable = createWritable()
 
-// TODO: replace the pass through stream 
+// TODO: replace the pass through stream
 // with a transform stream that uppercases
 // incoming characters
-const transform = new PassThrough()
 
-pipeline(readable, transform, writable, (err) => {
+// https://nodejs.org/docs/latest-v16.x/api/stream.html#new-streamtransformoptions
+const myTransform = new Transform({
+
+  transform(chunk, encoding, callback) {
+    callback(null, chunk.toString().toUpperCase())
+  }
+})
+
+pipeline(readable, myTransform, writable, (err) => {
   assert.ifError(err)
   assert.deepStrictEqual(writable.sink, ['A', 'B', 'C'])
   console.log('passed!')
